@@ -1,4 +1,5 @@
-const S_BOX = [
+
+  const S_BOX = [
     //S_BOX_1
     [
       [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
@@ -106,10 +107,14 @@ const S_BOX = [
     46, 42, 50, 36, 29, 32
   ]
   //plainText
-  const plainText = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  /* const plainText = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0];
+       0, 0, 0]; */
+  const plainText = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,]
+    //input 64bit {0,1}
   console.log('plainText', ...plainText)  
   
   const original_key = [
@@ -298,7 +303,6 @@ const P_BOX_per = (P_BOX_TABLE, binary_of_result_SBOX) => {
   for(var i=0; i<binary_of_result_SBOX.length; i++){
     convert_output.push(...Array.from(String(binary_of_result_SBOX[i]), Number))
   }
-  console.log('convert_output', convert_output);
   let result = [];
   for(var j=0; j<P_BOX_TABLE.length; j++){
     result.push(convert_output[P_BOX_TABLE[j]-1])
@@ -320,6 +324,7 @@ const P_BOX_per = (P_BOX_TABLE, binary_of_result_SBOX) => {
     let binary_of_result_SBOX = num_to_bin(result_of_SBOX);
     console.log('binary_of_result_SBOX', binary_of_result_SBOX);
     let per_PBOX_of_result_SBOX = P_BOX_per(P_BOX_TABLE, binary_of_result_SBOX);
+    console.log('per_PBOX_of_result_SBOX', per_PBOX_of_result_SBOX)
     return per_PBOX_of_result_SBOX;
     //console.log('per_PBOX_of_result_SBOX', per_PBOX_of_result_SBOX);
   }
@@ -356,14 +361,22 @@ const P_BOX_per = (P_BOX_TABLE, binary_of_result_SBOX) => {
     
     //return [L, R];
   }
-  for(var i=1; i<=16; i++){
-    round(i)
+
+  const final_func = () => {
+    for(var i=1; i<=16; i++){
+      round(i)
+    }
+    let result1 = [...L, ...R]
+    let result2 = [];
+    for(var j=0 ; j<IIP_TABLE.length; j++){
+      result2.push(result1[IIP_TABLE[j]-1])
+    }
+    console.log(result2)
+    bin_to_hex(result2, 64)
   }
   
-  let result1 = [...L, ...R]
-  let result2 = [];
-  for(var i=0 ; i<IIP_TABLE.length; i++){
-    result2.push(result1[IIP_TABLE[i]-1])
-  }
-  console.log(result2)
-  bin_to_hex(result2, 64)
+  final_func();
+  
+ 
+  
+
